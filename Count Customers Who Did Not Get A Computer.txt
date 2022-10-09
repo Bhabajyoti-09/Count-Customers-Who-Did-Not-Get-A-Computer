@@ -1,0 +1,56 @@
+/*
+    Time Complexity: O(N)
+    Space Complexity: O(N)
+
+    Where N denotes the number of customers.
+*/
+
+int countCustomers(vector<int> &arr, int k)
+{
+    
+    //    Finding the number of customers
+    int n = (arr.size()) / 2;
+
+    //    Checking if the number of computers are more than or equal to the number of customers
+    if (k >= n)
+    {
+        return 0;
+    }
+
+    //    Defining the customer status array
+    vector<int> customerStatus(n + 1, 0);
+
+    //    Defining the variables
+    int customersWhoLeft = 0, availableComputers = k;
+
+    //    Iterating through the input array
+    for (int i = 0; i < 2 * n; i++)
+    {
+
+        //    If the customer status is 0 then we will check whether any computers are available
+        if (customerStatus[arr[i]] == 0)
+        {
+
+            //    If computers are available then we will allot one computer to the customer otherwise we will increase customersWhoLeft by 1
+            if (availableComputers > 0)
+            {
+                availableComputers--;
+                customerStatus[arr[i]] = 1;
+            }
+            else
+            {
+                customersWhoLeft++;
+                customerStatus[arr[i]] = -1;
+            }
+        }
+
+        //    If the customer status is 1 then we will make 1 more computer available
+        else if (customerStatus[arr[i]] == 1)
+        {
+            availableComputers++;
+            customerStatus[arr[i]] = -1;
+        }
+    }
+
+    return customersWhoLeft;
+}
